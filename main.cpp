@@ -1,6 +1,3 @@
-//Autor: Nedeljko Tesanovic
-//Opis: Primjer upotrebe tekstura
-
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <iostream>
@@ -10,14 +7,17 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-//stb_image.h je header-only biblioteka za ucitavanje tekstura.
-//Potrebno je definisati STB_IMAGE_IMPLEMENTATION prije njenog ukljucivanja
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
 unsigned int compileShader(GLenum type, const char* source);
 unsigned int createShader(const char* vsSource, const char* fsSource);
-static unsigned loadImageToTexture(const char* filePath); //Ucitavanje teksture, izdvojeno u funkciju
+static unsigned loadImageToTexture(const char* filePath);
+unsigned int createVAO(unsigned int* VBO, const float* vertices, unsigned int size, unsigned int stride);
+unsigned int loadAndSetupTexture(const char* texturePath, unsigned int shaderProgram, const char* uniformName);
+
+const int TARGET_FPS = 60;
+const double TARGET_TIME_PER_FRAME = 1.0 / TARGET_FPS;
 
 int main(void)
 {
@@ -32,11 +32,14 @@ int main(void)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+    const char wTitle[] = "Pixel Art";
+
     GLFWwindow* window;
-    unsigned int wWidth = 800;
-    unsigned int wHeight = 800;
-    const char wTitle[] = "[Generic Title]";
-    window = glfwCreateWindow(wWidth, wHeight, wTitle, NULL, NULL);
+    GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
+    const GLFWvidmode* videoMode = glfwGetVideoMode(primaryMonitor);
+    unsigned int wWidth = videoMode->width;
+    unsigned int wHeight = videoMode->height;
+    window = glfwCreateWindow(wWidth, wHeight, wTitle, glfwGetPrimaryMonitor(), NULL);
     
     if (window == NULL)
     {
@@ -46,7 +49,7 @@ int main(void)
     }
 
     glfwMakeContextCurrent(window);
-
+    glViewport(0, 0, wWidth, wHeight);
 
     if (glewInit() != GLEW_OK)
     {
@@ -56,85 +59,102 @@ int main(void)
 
     unsigned int unifiedShader = createShader("basic.vert", "basic.frag");
 
-    float vertices[] =
-    {   //X    Y      S    T 
-        0.25, 0.0,   1.0, 0.0,//prvo tjeme
-        -0.25, 0.0,  0.0, 0.0, //drugo tjeme
-        0.0, 0.5,    0.5, 1.0 //trece tjeme
+    float ground_vertices[] = {
+        -1.0f, -1.0f,                        0.0f, 0.0f,
+         1.0f, -1.0f,                        wWidth / 128.0f, 0.0f,
+        -1.0f, 128.0f / wHeight - 1.0f,      0.0f, 1.0f,
+         1.0f, 128.0f / wHeight - 1.0f,      wWidth / 128.0f, 1.0f
     };
-    // notacija koordinata za teksture je STPQ u GLSL-u (ali se cesto koristi UV za 2D teksture i STR za 3D)
-    //ST koordinate u nizu tjemena su koordinate za teksturu i krecu se od 0 do 1, gdje je 0, 0 donji lijevi ugao teksture
-    //Npr. drugi red u nizu tjemena ce da mapira boje donjeg lijevog ugla teksture na drugo tjeme
+
+    float waterfall_vertices[] = {
+        0.6f, -1.0f,                       0.0f, 0.0f,
+        0.6f + 400.0f / wWidth, -1.0f,     1.0f, 0.0f,
+        0.6f, 768.0f / wHeight - 1.0f,                        0.0f, 1.0f,
+        0.6f + 400.0f / wWidth, 768.0f / wHeight - 1.0f,      1.0f, 1.0f
+    };
+
     unsigned int stride = (2 + 2) * sizeof(float);
 
-    unsigned int VAO;
-    glGenVertexArrays(1, &VAO);
-    glBindVertexArray(VAO);
-    unsigned int VBO;
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-   
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, stride, (void*)0);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, stride, (void*)(2 * sizeof(float)));
-    glEnableVertexAttribArray(1);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
-    
-    //Tekstura
-    unsigned checkerTexture = loadImageToTexture("res/Ground.png"); //Ucitavamo teksturu
-    glBindTexture(GL_TEXTURE_2D, checkerTexture); //Podesavamo teksturu
-    glGenerateMipmap(GL_TEXTURE_2D); //Generisemo mipmape 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);//S = U = X    GL_REPEAT, GL_CLAMP_TO_EDGE, GL_CLAMP_TO_BORDER
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);// T = V = Y
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);   //GL_NEAREST, GL_LINEAR
-    glBindTexture(GL_TEXTURE_2D, 0);
-    glUseProgram(unifiedShader);
-    unsigned uTexLoc = glGetUniformLocation(unifiedShader, "uTex");
-    glUniform1i(uTexLoc, 0); // Indeks teksturne jedinice (sa koje teksture ce se citati boje)
-    glUseProgram(0);
-    //Odnosi se na glActiveTexture(GL_TEXTURE0) u render petlji
-    //Moguce je sabirati indekse, tj GL_TEXTURE5 se moze dobiti sa GL_TEXTURE0 + 5 , sto je korisno za iteriranje kroz petlje
+    //VAO and VBO
+    unsigned int groundVAO, groundVBO;
+    groundVAO = createVAO(&groundVBO, ground_vertices, sizeof(ground_vertices), stride);
+
+    unsigned int waterfallVAO, waterfallVBO;
+    waterfallVAO = createVAO(&waterfallVBO, waterfall_vertices, sizeof(waterfall_vertices), stride);
+
+    //Textures
+    unsigned groundTexture = loadAndSetupTexture("res/Ground.png", unifiedShader, "uTex");
+    unsigned waterfallTexture1 = loadAndSetupTexture("res/Waterfall_1.png", unifiedShader, "uTex");
+    unsigned waterfallTexture2 = loadAndSetupTexture("res/Waterfall_2.png", unifiedShader, "uTex");
+
+    double lastSwitchTime = glfwGetTime();
+    const double switchInterval = 0.5;
+    unsigned int currentWaterfallTexture = waterfallTexture1;
 
     while (!glfwWindowShouldClose(window))
     {
+        double startTime = glfwGetTime();
+        if (startTime - lastSwitchTime >= switchInterval) {
+            currentWaterfallTexture = (currentWaterfallTexture == waterfallTexture1) ? waterfallTexture2 : waterfallTexture1;
+            lastSwitchTime = startTime;
+        }
         
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         {
             glfwSetWindowShouldClose(window, GL_TRUE);
         }
         
-        glClearColor(0.5, 0.5, 0.5, 1.0);
+        glClearColor(169.0f / 255.0f, 233.0f / 255.0f, 255.0f / 255.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         glUseProgram(unifiedShader);
-        glBindVertexArray(VAO);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-        glActiveTexture(GL_TEXTURE0); //tekstura koja se bind-uje nakon ovoga ce se koristiti sa SAMPLER2D uniformom u sejderu koja odgovara njenom indeksu
-        glBindTexture(GL_TEXTURE_2D, checkerTexture);
-
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-
+        //Ground
+        glBindVertexArray(groundVAO);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, groundTexture);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
         glBindTexture(GL_TEXTURE_2D, 0);
         glBindVertexArray(0);
+
+        //Waterfall
+        glBindVertexArray(waterfallVAO);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, currentWaterfallTexture);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindVertexArray(0);
+
         glUseProgram(0);
-        
 
         glfwSwapBuffers(window);
+
+        double endTime = glfwGetTime();
+        double timeTaken = endTime - startTime;
+        if (timeTaken < TARGET_TIME_PER_FRAME) {
+            double sleepTime = TARGET_TIME_PER_FRAME - timeTaken;
+            glfwWaitEventsTimeout(sleepTime);
+        }
+
         glfwPollEvents();
     }
 
 
-    glDeleteTextures(1, &checkerTexture);
-    glDeleteBuffers(1, &VBO);
-    glDeleteVertexArrays(1, &VAO);
+    glDeleteTextures(1, &groundTexture);
+    glDeleteTextures(1, &waterfallTexture1);
+    glDeleteTextures(1, &waterfallTexture2);
+    glDeleteBuffers(1, &groundVBO);
+    glDeleteBuffers(1, &waterfallVBO);
+    glDeleteVertexArrays(1, &groundVAO);
+    glDeleteVertexArrays(1, &waterfallVAO);
     glDeleteProgram(unifiedShader);
 
     glfwTerminate();
     return 0;
 }
+
 
 unsigned int compileShader(GLenum type, const char* source)
 {
@@ -174,6 +194,7 @@ unsigned int compileShader(GLenum type, const char* source)
     }
     return shader;
 }
+
 unsigned int createShader(const char* vsSource, const char* fsSource)
 {
     
@@ -210,6 +231,7 @@ unsigned int createShader(const char* vsSource, const char* fsSource)
 
     return program;
 }
+
 static unsigned loadImageToTexture(const char* filePath) {
     int TextureWidth;
     int TextureHeight;
@@ -217,10 +239,8 @@ static unsigned loadImageToTexture(const char* filePath) {
     unsigned char* ImageData = stbi_load(filePath, &TextureWidth, &TextureHeight, &TextureChannels, 0);
     if (ImageData != NULL)
     {
-        //Slike se osnovno ucitavaju naopako pa se moraju ispraviti da budu uspravne
         stbi__vertical_flip(ImageData, TextureWidth, TextureHeight, TextureChannels);
 
-        // Provjerava koji je format boja ucitane slike
         GLint InternalFormat = -1;
         switch (TextureChannels) {
         case 1: InternalFormat = GL_RED; break;
@@ -235,7 +255,6 @@ static unsigned loadImageToTexture(const char* filePath) {
         glBindTexture(GL_TEXTURE_2D, Texture);
         glTexImage2D(GL_TEXTURE_2D, 0, InternalFormat, TextureWidth, TextureHeight, 0, InternalFormat, GL_UNSIGNED_BYTE, ImageData);
         glBindTexture(GL_TEXTURE_2D, 0);
-        // oslobadjanje memorije zauzete sa stbi_load posto vise nije potrebna
         stbi_image_free(ImageData);
         return Texture;
     }
@@ -245,4 +264,42 @@ static unsigned loadImageToTexture(const char* filePath) {
         stbi_image_free(ImageData);
         return 0;
     }
+}
+
+unsigned int createVAO(unsigned int* VBO, const float* vertices, unsigned int size, unsigned int stride) {
+    unsigned int VAO;
+    glGenVertexArrays(1, &VAO);
+    glBindVertexArray(VAO);
+
+    glGenBuffers(1, VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, *VBO);
+    glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, stride, (void*)0);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, stride, (void*)(2 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+    return VAO;
+}
+
+unsigned int loadAndSetupTexture(const char* texturePath, unsigned int shaderProgram, const char* uniformName) {
+    unsigned int texture = loadImageToTexture(texturePath);
+
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    glUseProgram(shaderProgram);
+    unsigned int uTexLoc = glGetUniformLocation(shaderProgram, uniformName);
+    glUniform1i(uTexLoc, 0);
+    glUseProgram(0);
+
+    return texture;
 }
