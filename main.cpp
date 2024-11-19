@@ -73,6 +73,20 @@ int main(void)
         0.6f + 400.0f / wWidth, 768.0f / wHeight - 1.0f,      1.0f, 1.0f
     };
 
+    float board_vertices[] = {
+        -0.8f, 128.0f / wHeight - 1.0f,                                          0.0f, 0.0f,
+        -0.8f + 256.0f / wWidth, 128.0f / wHeight - 1.0f,                        1.0f, 0.0f,
+        -0.8f, 288.0f / wHeight + 128.0f / wHeight - 1.0f,                       0.0f, 1.0f,
+        -0.8f + 256.0f / wWidth, 288.0f / wHeight + 128.0f / wHeight - 1.0f,     1.0f, 1.0f
+    };
+
+    float text_vertices[] = {
+        -0.785f, 290.0f / wHeight - 1.0f,                                0.0f, 0.0f,
+        -0.785f + 200.0f / wWidth, 290.0f / wHeight - 1.0f,              1.0f, 0.0f,
+        -0.785f, 350.0f / wHeight - 1.0f,                                0.0f, 1.0f,
+        -0.785f + 200.0f / wWidth, 350.0f / wHeight - 1.0f,              1.0f, 1.0f
+    };
+
     unsigned int stride = (2 + 2) * sizeof(float);
 
     //VAO and VBO
@@ -82,10 +96,18 @@ int main(void)
     unsigned int waterfallVAO, waterfallVBO;
     waterfallVAO = createVAO(&waterfallVBO, waterfall_vertices, sizeof(waterfall_vertices), stride);
 
+    unsigned int boardVAO, boardVBO;
+    boardVAO = createVAO(&boardVBO, board_vertices, sizeof(board_vertices), stride);
+
+    unsigned int textVAO, textVBO;
+    textVAO = createVAO(&textVBO, text_vertices, sizeof(text_vertices), stride);
+
     //Textures
     unsigned groundTexture = loadAndSetupTexture("res/Ground.png", unifiedShader, "uTex");
     unsigned waterfallTexture1 = loadAndSetupTexture("res/Waterfall_1.png", unifiedShader, "uTex");
     unsigned waterfallTexture2 = loadAndSetupTexture("res/Waterfall_2.png", unifiedShader, "uTex");
+    unsigned boardTexture = loadAndSetupTexture("res/Board.png", unifiedShader, "uTex");
+    unsigned textTexture = loadAndSetupTexture("res/Sign.png", unifiedShader, "uTex");
 
     double lastSwitchTime = glfwGetTime();
     const double switchInterval = 0.5;
@@ -123,6 +145,22 @@ int main(void)
         glBindVertexArray(waterfallVAO);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, currentWaterfallTexture);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindVertexArray(0);
+
+        //Board
+        glBindVertexArray(boardVAO);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, boardTexture);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindVertexArray(0);
+
+        //Text
+        glBindVertexArray(textVAO);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, textTexture);
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
         glBindTexture(GL_TEXTURE_2D, 0);
         glBindVertexArray(0);
