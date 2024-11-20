@@ -15,9 +15,12 @@ unsigned int createShader(const char* vsSource, const char* fsSource);
 static unsigned loadImageToTexture(const char* filePath);
 unsigned int createVAO(unsigned int* VBO, const float* vertices, unsigned int size, unsigned int stride);
 unsigned int loadAndSetupTexture(const char* texturePath, unsigned int shaderProgram, const char* uniformName);
+void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 
 const int TARGET_FPS = 60;
 const double TARGET_TIME_PER_FRAME = 1.0 / TARGET_FPS;
+
+bool animationsActive = true;
 
 int main(void)
 {
@@ -366,38 +369,52 @@ int main(void)
     unsigned treeTexture5 = loadAndSetupTexture("res/Tree_5.png", unifiedShader, "uTex");
     unsigned treeTexture6 = loadAndSetupTexture("res/Tree_6.png", unifiedShader, "uTex");
     unsigned personTextureStanding = loadAndSetupTexture("res/Character_1.png", unifiedShader, "uTex");
-    unsigned personTexture1 = loadAndSetupTexture("res/Character_2.png", unifiedShader, "uTex");
-    unsigned personTexture2 = loadAndSetupTexture("res/Character_3.png", unifiedShader, "uTex");
-    unsigned personTexture3 = loadAndSetupTexture("res/Character_4.png", unifiedShader, "uTex");
+    unsigned personTexture1 = loadAndSetupTexture("res/Character_3.png", unifiedShader, "uTex");
+    unsigned personTexture2 = loadAndSetupTexture("res/Character_4.png", unifiedShader, "uTex");
 
     double lastSwitchTime = glfwGetTime();
+    double lastSwitchTimePerson = glfwGetTime();
+
     const double switchInterval = 0.5;
     unsigned int currentWaterfallTexture = waterfallTexture1;
     unsigned int currentVolcanoTexture = volcanoTexture1;
     unsigned int currentTree1Texture = treeTexture1;
     unsigned int currentTree2Texture = treeTexture3;
     unsigned int currentTree3Texture = treeTexture5;
+    unsigned int currentPersonTexture = personTextureStanding;
 
     unsigned int sunColorLocation = glGetUniformLocation(unifiedShader, "sunColor");
     unsigned int isSunLocation = glGetUniformLocation(unifiedShader, "isSun");
     unsigned int uPosLoc = glGetUniformLocation(unifiedShader, "uPos");
 
     float cloud_movement = 0.0f;
+    float person_position = 0.0f;
+
+    bool isVolcanoActive = false;
+    float change = 0;
 
     float cloud1_x = 0.1f, cloud2_x = 0.7f, cloud3_x = -0.95f;
 
     while (!glfwWindowShouldClose(window))
     {
         double startTime = glfwGetTime();
-        if (startTime - lastSwitchTime >= switchInterval) {
-            currentWaterfallTexture = (currentWaterfallTexture == waterfallTexture1) ? waterfallTexture2 : waterfallTexture1;
-            currentVolcanoTexture = (currentVolcanoTexture == volcanoTexture1) ? volcanoTexture2 : volcanoTexture1;
-            currentTree1Texture = (currentTree1Texture == treeTexture1) ? treeTexture2 : treeTexture1;
-            currentTree2Texture = (currentTree2Texture == treeTexture3) ? treeTexture4 : treeTexture3;
-            currentTree3Texture = (currentTree3Texture == treeTexture5) ? treeTexture6 : treeTexture5;
-            lastSwitchTime = startTime;
+        if (animationsActive) {
+            if (startTime - lastSwitchTime >= switchInterval) {
+                currentWaterfallTexture = (currentWaterfallTexture == waterfallTexture1) ? waterfallTexture2 : waterfallTexture1;
+                if (isVolcanoActive)
+                    currentVolcanoTexture = (currentVolcanoTexture == volcanoTexture3) ? volcanoTexture4 : volcanoTexture3;
+                else
+                    currentVolcanoTexture = (currentVolcanoTexture == volcanoTexture1) ? volcanoTexture2 : volcanoTexture1;
+
+                currentTree1Texture = (currentTree1Texture == treeTexture1) ? treeTexture2 : treeTexture1;
+                currentTree2Texture = (currentTree2Texture == treeTexture3) ? treeTexture4 : treeTexture3;
+                currentTree3Texture = (currentTree3Texture == treeTexture5) ? treeTexture6 : treeTexture5;
+                lastSwitchTime = startTime;
+            }
         }
         
+        glfwSetMouseButtonCallback(window, mouseButtonCallback);
+
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         {
             glfwSetWindowShouldClose(window, GL_TRUE);
@@ -411,7 +428,9 @@ int main(void)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         //Sun
-        float change = (sin(startTime) + 1.0f) / 2.0f + 0.8f;
+        if (animationsActive)
+            change = (sin(startTime) + 1.0f) / 2.0f + 0.8f;
+        
         glUniform3f(sunColorLocation, 1.0f, change, 1.0f);
         glUniform1i(isSunLocation, true);
 
@@ -424,9 +443,11 @@ int main(void)
         glUniform1i(isSunLocation, false);
 
         //Clouds
-        cloud1_x -= 0.0008f;
-        cloud2_x -= 0.0005f;
-        cloud3_x -= 0.0003f;
+        if (animationsActive) {
+            cloud1_x -= 0.0008f;
+            cloud2_x -= 0.0005f;
+            cloud3_x -= 0.0003f;
+        }
 
         if (cloud1_x < -1.5f) {
             cloud1_x = 1.0f;
@@ -638,12 +659,55 @@ int main(void)
         glBindVertexArray(0);
 
         //Person
+        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+        {
+            person_position += 0.005f;
+            if (startTime - lastSwitchTimePerson >= 0.15) {
+                if (currentPersonTexture == personTextureStanding)
+                    currentPersonTexture = personTexture1;
+                currentPersonTexture = (currentPersonTexture == personTexture1) ? personTexture2 : personTexture1;
+                lastSwitchTimePerson = startTime;
+            }
+        }
+        else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+        {
+            person_position -= 0.005f;
+            if (startTime - lastSwitchTimePerson >= 0.15) {
+                if (currentPersonTexture == personTextureStanding)
+                    currentPersonTexture = personTexture1;
+                currentPersonTexture = (currentPersonTexture == personTexture1) ? personTexture2 : personTexture1;
+                lastSwitchTimePerson = startTime;
+            }
+            glUniform1i(glGetUniformLocation(unifiedShader, "mirror"), true);
+        }
+        else if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
+        {
+            person_position = 0.0f;
+            currentPersonTexture = personTextureStanding;
+        }
+        else {
+            currentPersonTexture = personTextureStanding;
+        }
+
+        if (person_position > 0.5f) {
+            person_position = 0.5f;
+        }
+
+        if (person_position < -1.0)
+            isVolcanoActive = true;
+        else
+            isVolcanoActive = false;
+
         glBindVertexArray(personVAO);
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, personTextureStanding);
+        glBindTexture(GL_TEXTURE_2D, currentPersonTexture);
+        glUniform2f(uPosLoc, person_position, 0);
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
         glBindTexture(GL_TEXTURE_2D, 0);
         glBindVertexArray(0);
+        glUniform2f(uPosLoc, 0, 0);
+
+        glUniform1i(glGetUniformLocation(unifiedShader, "mirror"), false);
 
 
 
@@ -688,7 +752,6 @@ int main(void)
     glDeleteTextures(1, &personTextureStanding);
     glDeleteTextures(1, &personTexture1);
     glDeleteTextures(1, &personTexture2);
-    glDeleteTextures(1, &personTexture3);
 
     glDeleteVertexArrays(1, &groundVAO1);
     glDeleteVertexArrays(1, &groundVAO2);
@@ -872,4 +935,12 @@ unsigned int loadAndSetupTexture(const char* texturePath, unsigned int shaderPro
     glUseProgram(0);
 
     return texture;
+}
+
+void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
+    if (button == GLFW_MOUSE_BUTTON_LEFT) {
+        if (action == GLFW_PRESS) {
+            animationsActive = !animationsActive;
+        }
+    }
 }
