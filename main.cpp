@@ -128,6 +128,27 @@ int main(void)
         -0.75f + 256.0f / wWidth, 0.5f + 256.0f / wHeight,         1.0f, 1.0f
     };
 
+    float cloud_vertices1[] = {
+        0.0f, 0.6f,                                              0.0f, 0.0f,
+        0.0f + 512.0f / wWidth, 0.6f,                            1.0f, 0.0f,
+        0.0f, 0.6f + 192.0f / wHeight,                           0.0f, 1.0f,
+        0.0f + 512.0f / wWidth, 0.6f + 192.0f / wHeight,          1.0f, 1.0f
+    };
+
+    float cloud_vertices2[] = {
+        0.0f, 0.45f,                                              0.0f, 0.0f,
+        0.0f + 384.0f / wWidth, 0.45f,                            1.0f, 0.0f,
+        0.0f, 0.45f + 160.0f / wHeight,                           0.0f, 1.0f,
+        0.0f + 384.0f / wWidth, 0.45f + 160.0f / wHeight,          1.0f, 1.0f
+    };
+
+    float cloud_vertices3[] = {
+        0.0f, 0.8f,                                              0.0f, 0.0f,
+        0.0f + 224.0f / wWidth, 0.8f,                            1.0f, 0.0f,
+        0.0f, 0.8f + 96.0f / wHeight,                            0.0f, 1.0f,
+        0.0f + 224.0f / wWidth, 0.8f + 96.0f / wHeight,          1.0f, 1.0f
+    };
+
     unsigned int stride = (2 + 2) * sizeof(float);
 
     //VAO and VBO
@@ -161,6 +182,15 @@ int main(void)
     unsigned int sunVAO, sunVBO;
     sunVAO = createVAO(&sunVBO, sun_vertices, sizeof(sun_vertices), stride);
 
+    unsigned int cloudVAO1, cloudVBO1;
+    cloudVAO1 = createVAO(&cloudVBO1, cloud_vertices1, sizeof(cloud_vertices1), stride);
+
+    unsigned int cloudVAO2, cloudVBO2;
+    cloudVAO2 = createVAO(&cloudVBO2, cloud_vertices2, sizeof(cloud_vertices2), stride);
+
+    unsigned int cloudVAO3, cloudVBO3;
+    cloudVAO3 = createVAO(&cloudVBO3, cloud_vertices3, sizeof(cloud_vertices3), stride);
+
     //Textures
     unsigned groundTexture = loadAndSetupTexture("res/Ground.png", unifiedShader, "uTex");
     unsigned waterfallTexture1 = loadAndSetupTexture("res/Waterfall_1.png", unifiedShader, "uTex");
@@ -170,10 +200,21 @@ int main(void)
     unsigned dirtTexture = loadAndSetupTexture("res/Dirt.png", unifiedShader, "uTex");
     unsigned bushTexture3 = loadAndSetupTexture("res/Bush_3.png", unifiedShader, "uTex");
     unsigned sunTexture = loadAndSetupTexture("res/Sun.png", unifiedShader, "uTex");
+    unsigned cloudTexture1 = loadAndSetupTexture("res/Cloud_1.png", unifiedShader, "uTex");
+    unsigned cloudTexture2 = loadAndSetupTexture("res/Cloud_2.png", unifiedShader, "uTex");
+    unsigned cloudTexture3 = loadAndSetupTexture("res/Cloud_3.png", unifiedShader, "uTex");
 
     double lastSwitchTime = glfwGetTime();
     const double switchInterval = 0.5;
     unsigned int currentWaterfallTexture = waterfallTexture1;
+
+    unsigned int sunColorLocation = glGetUniformLocation(unifiedShader, "sunColor");
+    unsigned int isSunLocation = glGetUniformLocation(unifiedShader, "isSun");
+    unsigned int uPosLoc = glGetUniformLocation(unifiedShader, "uPos");
+
+    float cloud_movement = 0.0f;
+
+    float cloud1_x = 0.1f, cloud2_x = 0.7f, cloud3_x = -0.95f;
 
     while (!glfwWindowShouldClose(window))
     {
@@ -194,8 +235,6 @@ int main(void)
         glUseProgram(unifiedShader);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        unsigned int sunColorLocation = glGetUniformLocation(unifiedShader, "sunColor");
-        unsigned int isSunLocation = glGetUniformLocation(unifiedShader, "isSun");
 
         //Sun
         float change = (sin(startTime) + 1.0f) / 2.0f + 0.8f;
@@ -209,6 +248,49 @@ int main(void)
         glBindTexture(GL_TEXTURE_2D, 0);
         glBindVertexArray(0);
         glUniform1i(isSunLocation, false);
+
+        //Clouds
+        cloud1_x -= 0.0008f;
+        cloud2_x -= 0.0005f;
+        cloud3_x -= 0.0003f;
+
+        if (cloud1_x < -1.5f) {
+            cloud1_x = 1.0f;
+        }
+
+        if (cloud2_x < -1.3f) {
+            cloud2_x = 1.0f;
+        }
+
+        if (cloud3_x < -1.15f) {
+            cloud3_x = 1.0f;
+        }
+
+        glUniform2f(uPosLoc, cloud1_x, 0);
+        glBindVertexArray(cloudVAO1);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, cloudTexture1);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindVertexArray(0);
+
+        glUniform2f(uPosLoc, cloud2_x, 0);
+        glBindVertexArray(cloudVAO2);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, cloudTexture2);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindVertexArray(0);
+
+        glUniform2f(uPosLoc, cloud3_x, 0);
+        glBindVertexArray(cloudVAO3);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, cloudTexture3);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindVertexArray(0);
+
+        glUniform2f(uPosLoc, 0, 0);
 
         //Ground
         glBindVertexArray(groundVAO1);
