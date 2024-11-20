@@ -59,16 +59,23 @@ int main(void)
 
     unsigned int unifiedShader = createShader("basic.vert", "basic.frag");
 
-    float ground_vertices[] = {
+    float ground_vertices1[] = {
         -1.0f, -1.0f,                        0.0f, 0.0f,
          1.0f, -1.0f,                        wWidth / 128.0f, 0.0f,
         -1.0f, 128.0f / wHeight - 1.0f,      0.0f, 1.0f,
          1.0f, 128.0f / wHeight - 1.0f,      wWidth / 128.0f, 1.0f
     };
 
+    float ground_vertices2[] = {
+         0.4f, 640.0f / wHeight - 1.0f,      0.0f, 0.0f,
+         1.0f, 640.0f / wHeight - 1.0f,      0.3f * wWidth / 128.0f, 0.0f,
+         0.4f, 768.0f / wHeight - 1.0f,      0.0f, 1.0f,
+         1.0f, 768.0f / wHeight - 1.0f,      0.3f * wWidth / 128.0f, 1.0f
+    };
+
     float waterfall_vertices[] = {
-        0.6f, -1.0f,                       0.0f, 0.0f,
-        0.6f + 400.0f / wWidth, -1.0f,     1.0f, 0.0f,
+        0.6f, -1.0f,                                          0.0f, 0.0f,
+        0.6f + 400.0f / wWidth, -1.0f,                        1.0f, 0.0f,
         0.6f, 768.0f / wHeight - 1.0f,                        0.0f, 1.0f,
         0.6f + 400.0f / wWidth, 768.0f / wHeight - 1.0f,      1.0f, 1.0f
     };
@@ -86,12 +93,49 @@ int main(void)
         -0.785f, 350.0f / wHeight - 1.0f,                                0.0f, 1.0f,
         -0.785f + 200.0f / wWidth, 350.0f / wHeight - 1.0f,              1.0f, 1.0f
     };
+    
+    float dirt_vertices1[] = {
+        -0.8f, 128.0f / wHeight - 1.0f,     0.0f, 0.0f,
+        1.0f, 128.0f / wHeight - 1.0f,      0.9f * wWidth / 128.0f, 0.0f,
+        -0.8f, 350.0f / wHeight - 1.0f,     0.0f, (222.0f / wHeight / 2)* wHeight / 128.0f,
+        1.0f, 350.0f / wHeight - 1.0f,      0.9f * wWidth / 128.0f, (222.0f / wHeight / 2) * wHeight / 128.0f
+    };
+
+    float dirt_vertices2[] = {
+        0.4f, 350.0f / wHeight - 1.0f,      0.0f, 0.0f,
+        1.0f, 350.0f / wHeight - 1.0f,      0.3f * wWidth / 128.0f, 0.0f,
+        0.4f, 640.0f / wHeight - 1.0f,      0.0f, (300.0f / wHeight / 2) * wHeight / 128.0f,
+        1.0f, 640.0f / wHeight - 1.0f,      0.3f * wWidth / 128.0f, (300.0f / wHeight / 2) * wHeight / 128.0f
+    };
+
+    float dirt_vertices3[] = {
+       -0.7f, 350.0f / wHeight - 1.0f,      0.0f, 0.0f,
+        0.4f, 350.0f / wHeight - 1.0f,      0.55f * wWidth / 128.0f, 0.0f,
+        0.4f, 768.0f / wHeight - 1.0f,      0.55f * wWidth / 128.0f, (418.0f / wHeight / 2)* wHeight / 128.0f
+    };
+
+    float bush_vertices1[] = {
+        -1.0f, 128.0f / wHeight - 1.0f,                                            0.0f, 0.0f,
+        -1.0f + 432.0f / wWidth, 128.0f / wHeight - 1.0f,                          1.0f, 0.0f,
+        -1.0f, (128.0f + 304.0f) / wHeight - 1.0f,                                 0.0f, 1.0f,
+        -1.0f + 432.0f / wWidth, (128.0f + 304.0f) / wHeight - 1.0f,               1.0f, 1.0f
+    };
+
+    float sun_vertices[] = {
+        -0.75f, 0.5f,                                              0.0f, 0.0f,
+        -0.75f + 256.0f / wWidth, 0.5f,                            1.0f, 0.0f,
+        -0.75f, 0.5f + 256.0f / wHeight,                           0.0f, 1.0f,
+        -0.75f + 256.0f / wWidth, 0.5f + 256.0f / wHeight,         1.0f, 1.0f
+    };
 
     unsigned int stride = (2 + 2) * sizeof(float);
 
     //VAO and VBO
-    unsigned int groundVAO, groundVBO;
-    groundVAO = createVAO(&groundVBO, ground_vertices, sizeof(ground_vertices), stride);
+    unsigned int groundVAO1, groundVBO1;
+    groundVAO1 = createVAO(&groundVBO1, ground_vertices1, sizeof(ground_vertices1), stride);
+
+    unsigned int groundVAO2, groundVBO2;
+    groundVAO2 = createVAO(&groundVBO2, ground_vertices2, sizeof(ground_vertices2), stride);
 
     unsigned int waterfallVAO, waterfallVBO;
     waterfallVAO = createVAO(&waterfallVBO, waterfall_vertices, sizeof(waterfall_vertices), stride);
@@ -102,12 +146,30 @@ int main(void)
     unsigned int textVAO, textVBO;
     textVAO = createVAO(&textVBO, text_vertices, sizeof(text_vertices), stride);
 
+    unsigned int dirtVAO1, dirtVBO1;
+    dirtVAO1 = createVAO(&dirtVBO1, dirt_vertices1, sizeof(dirt_vertices1), stride);
+
+    unsigned int dirtVAO2, dirtVBO2;
+    dirtVAO2 = createVAO(&dirtVBO2, dirt_vertices2, sizeof(dirt_vertices2), stride);
+
+    unsigned int dirtVAO3, dirtVBO3;
+    dirtVAO3 = createVAO(&dirtVBO3, dirt_vertices3, sizeof(dirt_vertices3), stride);
+
+    unsigned int bushVAO1, bushVBO1;
+    bushVAO1 = createVAO(&bushVBO1, bush_vertices1, sizeof(bush_vertices1), stride);
+
+    unsigned int sunVAO, sunVBO;
+    sunVAO = createVAO(&sunVBO, sun_vertices, sizeof(sun_vertices), stride);
+
     //Textures
     unsigned groundTexture = loadAndSetupTexture("res/Ground.png", unifiedShader, "uTex");
     unsigned waterfallTexture1 = loadAndSetupTexture("res/Waterfall_1.png", unifiedShader, "uTex");
     unsigned waterfallTexture2 = loadAndSetupTexture("res/Waterfall_2.png", unifiedShader, "uTex");
     unsigned boardTexture = loadAndSetupTexture("res/Board.png", unifiedShader, "uTex");
     unsigned textTexture = loadAndSetupTexture("res/Sign.png", unifiedShader, "uTex");
+    unsigned dirtTexture = loadAndSetupTexture("res/Dirt.png", unifiedShader, "uTex");
+    unsigned bushTexture3 = loadAndSetupTexture("res/Bush_3.png", unifiedShader, "uTex");
+    unsigned sunTexture = loadAndSetupTexture("res/Sun.png", unifiedShader, "uTex");
 
     double lastSwitchTime = glfwGetTime();
     const double switchInterval = 0.5;
@@ -132,12 +194,56 @@ int main(void)
         glUseProgram(unifiedShader);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        unsigned int sunColorLocation = glGetUniformLocation(unifiedShader, "sunColor");
+        unsigned int isSunLocation = glGetUniformLocation(unifiedShader, "isSun");
+
+        //Sun
+        float change = (sin(startTime) + 1.0f) / 2.0f + 0.8f;
+        glUniform3f(sunColorLocation, 1.0f, change, 1.0f);
+        glUniform1i(isSunLocation, true);
+
+        glBindVertexArray(sunVAO);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, sunTexture);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindVertexArray(0);
+        glUniform1i(isSunLocation, false);
 
         //Ground
-        glBindVertexArray(groundVAO);
+        glBindVertexArray(groundVAO1);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, groundTexture);
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindVertexArray(0);
+
+        glBindVertexArray(groundVAO2);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, groundTexture);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindVertexArray(0);
+
+        //Dirt
+        glBindVertexArray(dirtVAO1);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, dirtTexture);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindVertexArray(0);
+
+        glBindVertexArray(dirtVAO2);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, dirtTexture);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindVertexArray(0);
+
+        glBindVertexArray(dirtVAO3);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, dirtTexture);
+        glDrawArrays(GL_TRIANGLES, 0, 4);
         glBindTexture(GL_TEXTURE_2D, 0);
         glBindVertexArray(0);
 
@@ -165,6 +271,15 @@ int main(void)
         glBindTexture(GL_TEXTURE_2D, 0);
         glBindVertexArray(0);
 
+        //Bush
+        glBindVertexArray(bushVAO1);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, bushTexture3);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindVertexArray(0);
+
+
         glUseProgram(0);
 
         glfwSwapBuffers(window);
@@ -183,9 +298,9 @@ int main(void)
     glDeleteTextures(1, &groundTexture);
     glDeleteTextures(1, &waterfallTexture1);
     glDeleteTextures(1, &waterfallTexture2);
-    glDeleteBuffers(1, &groundVBO);
+    glDeleteBuffers(1, &groundVBO1);
     glDeleteBuffers(1, &waterfallVBO);
-    glDeleteVertexArrays(1, &groundVAO);
+    glDeleteVertexArrays(1, &groundVAO1);
     glDeleteVertexArrays(1, &waterfallVAO);
     glDeleteProgram(unifiedShader);
 
