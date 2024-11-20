@@ -67,10 +67,10 @@ int main(void)
     };
 
     float ground_vertices2[] = {
-         0.4f, 640.0f / wHeight - 1.0f,      0.0f, 0.0f,
-         1.0f, 640.0f / wHeight - 1.0f,      0.3f * wWidth / 128.0f, 0.0f,
-         0.4f, 768.0f / wHeight - 1.0f,      0.0f, 1.0f,
-         1.0f, 768.0f / wHeight - 1.0f,      0.3f * wWidth / 128.0f, 1.0f
+         0.2f, 640.0f / wHeight - 1.0f,      0.0f, 0.0f,
+         1.0f, 640.0f / wHeight - 1.0f,      0.4f * wWidth / 128.0f, 0.0f,
+         0.2f, 768.0f / wHeight - 1.0f,      0.0f, 1.0f,
+         1.0f, 768.0f / wHeight - 1.0f,      0.4f * wWidth / 128.0f, 1.0f
     };
 
     float waterfall_vertices[] = {
@@ -102,16 +102,16 @@ int main(void)
     };
 
     float dirt_vertices2[] = {
-        0.4f, 350.0f / wHeight - 1.0f,      0.0f, 0.0f,
-        1.0f, 350.0f / wHeight - 1.0f,      0.3f * wWidth / 128.0f, 0.0f,
-        0.4f, 640.0f / wHeight - 1.0f,      0.0f, (300.0f / wHeight / 2) * wHeight / 128.0f,
-        1.0f, 640.0f / wHeight - 1.0f,      0.3f * wWidth / 128.0f, (300.0f / wHeight / 2) * wHeight / 128.0f
+        0.2f, 350.0f / wHeight - 1.0f,      0.0f, 0.0f,
+        1.0f, 350.0f / wHeight - 1.0f,      0.4f * wWidth / 128.0f, 0.0f,
+        0.2f, 640.0f / wHeight - 1.0f,      0.0f, (300.0f / wHeight / 2) * wHeight / 128.0f,
+        1.0f, 640.0f / wHeight - 1.0f,      0.4f * wWidth / 128.0f, (300.0f / wHeight / 2) * wHeight / 128.0f
     };
 
     float dirt_vertices3[] = {
        -0.7f, 350.0f / wHeight - 1.0f,      0.0f, 0.0f,
-        0.4f, 350.0f / wHeight - 1.0f,      0.55f * wWidth / 128.0f, 0.0f,
-        0.4f, 768.0f / wHeight - 1.0f,      0.55f * wWidth / 128.0f, (418.0f / wHeight / 2)* wHeight / 128.0f
+        0.2f, 350.0f / wHeight - 1.0f,      0.45f * wWidth / 128.0f, 0.0f,
+        0.2f, 768.0f / wHeight - 1.0f,      0.45f * wWidth / 128.0f, (418.0f / wHeight / 2)* wHeight / 128.0f
     };
 
     float bush_vertices1[] = {
@@ -119,6 +119,62 @@ int main(void)
         -1.0f + 432.0f / wWidth, 128.0f / wHeight - 1.0f,                          1.0f, 0.0f,
         -1.0f, (128.0f + 304.0f) / wHeight - 1.0f,                                 0.0f, 1.0f,
         -1.0f + 432.0f / wWidth, (128.0f + 304.0f) / wHeight - 1.0f,               1.0f, 1.0f
+    };
+
+    float bush_vertices2[] = {
+        0.2f, -0.34f,                                                          0.0f, 0.0f,
+        0.2f + 1568.0f / wWidth, -0.34f,                                       1.0f, 0.0f,
+        0.2f, -0.34f + 320.0f / wHeight,                                       0.0f, 1.0f,
+        0.2f + 1568.0f / wWidth, -0.34f + 320.0f / wHeight,                    1.0f, 1.0f
+    };
+
+    float bush_vertices3[] = {
+        0.1f, -0.4f,                                                          0.0f, 0.0f,
+        0.1f + 256.0f / wWidth, -0.4f,                                        1.0f, 0.0f,
+        0.1f, -0.4f + 208.0f / wHeight,                                       0.0f, 1.0f,
+        0.1f + 256.0f / wWidth, -0.4f + 208.0f / wHeight,                     1.0f, 1.0f
+    };
+
+    float bush_vertices4[] = {
+        0.0f, -0.45f,                                                          0.0f, 0.0f,
+        0.0f + 256.0f / wWidth, -0.45f,                                        1.0f, 0.0f,
+        0.0f, -0.45f + 208.0f / wHeight,                                       0.0f, 1.0f,
+        0.0f + 256.0f / wWidth, -0.45f + 208.0f / wHeight,                     1.0f, 1.0f
+    };
+
+    float bush_vertices5[] = {
+        -0.1f, -0.46f,                                                          0.0f, 0.0f,
+        -0.1f + 256.0f / wWidth, -0.46f,                                        1.0f, 0.0f,
+        -0.1f, -0.46f + 208.0f / wHeight,                                       0.0f, 1.0f,
+        -0.1f + 256.0f / wWidth, -0.46f + 208.0f / wHeight,                     1.0f, 1.0f
+    };
+    
+    float bush_vertices6[] = {
+        -0.2f, -0.48f,                                                          0.0f, 0.0f,
+        -0.2f + 256.0f / wWidth, -0.48f,                                        1.0f, 0.0f,
+        -0.2f, -0.48f + 208.0f / wHeight,                                       0.0f, 1.0f,
+        -0.2f + 256.0f / wWidth, -0.48f + 208.0f / wHeight,                     1.0f, 1.0f
+    };
+
+    float bush_vertices7[] = {
+        -0.3f, -0.53f,                                                          0.0f, 0.0f,
+        -0.3f + 256.0f / wWidth, -0.53f,                                        1.0f, 0.0f,
+        -0.3f, -0.53f + 208.0f / wHeight,                                       0.0f, 1.0f,
+        -0.3f + 256.0f / wWidth, -0.53f + 208.0f / wHeight,                     1.0f, 1.0f
+    };
+
+    float bush_vertices8[] = {
+        -0.5f, -0.62f,                                                          0.0f, 0.0f,
+        -0.5f + 256.0f / wWidth, -0.62f,                                        1.0f, 0.0f,
+        -0.5f, -0.62f + 208.0f / wHeight,                                       0.0f, 1.0f,
+        -0.5f + 256.0f / wWidth, -0.62f + 208.0f / wHeight,                     1.0f, 1.0f
+    };
+
+    float bush_vertices9[] = {
+        -0.6f, -0.66f,                                                          0.0f, 0.0f,
+        -0.6f + 256.0f / wWidth, -0.66f,                                        1.0f, 0.0f,
+        -0.6f, -0.66f + 208.0f / wHeight,                                       0.0f, 1.0f,
+        -0.6f + 256.0f / wWidth, -0.66f + 208.0f / wHeight,                     1.0f, 1.0f
     };
 
     float sun_vertices[] = {
@@ -129,10 +185,10 @@ int main(void)
     };
 
     float cloud_vertices1[] = {
-        0.0f, 0.6f,                                              0.0f, 0.0f,
-        0.0f + 512.0f / wWidth, 0.6f,                            1.0f, 0.0f,
-        0.0f, 0.6f + 192.0f / wHeight,                           0.0f, 1.0f,
-        0.0f + 512.0f / wWidth, 0.6f + 192.0f / wHeight,          1.0f, 1.0f
+        0.0f, 0.65f,                                              0.0f, 0.0f,
+        0.0f + 512.0f / wWidth, 0.65f,                            1.0f, 0.0f,
+        0.0f, 0.65f + 192.0f / wHeight,                           0.0f, 1.0f,
+        0.0f + 512.0f / wWidth, 0.65f + 192.0f / wHeight,          1.0f, 1.0f
     };
 
     float cloud_vertices2[] = {
@@ -147,6 +203,55 @@ int main(void)
         0.0f + 224.0f / wWidth, 0.8f,                            1.0f, 0.0f,
         0.0f, 0.8f + 96.0f / wHeight,                            0.0f, 1.0f,
         0.0f + 224.0f / wWidth, 0.8f + 96.0f / wHeight,          1.0f, 1.0f
+    };
+
+    float volcano_vertices[] = {
+        0.35f, -0.17f,                                                         0.0f, 0.0f,
+        0.35f + 512.0f / wWidth, -0.17f,                                       1.0f, 0.0f,
+        0.35f, -0.17f + 512.0f / wHeight,                                      0.0f, 1.0f,
+        0.35f + 512.0f / wWidth, -0.17f + 512.0f / wHeight,                    1.0f, 1.0f
+    };
+
+    float tree_vertices1[] = {
+        0.76f, -0.35f,                                                         0.0f, 0.0f,
+        0.76f + 432.0f / wWidth, -0.35f,                                       1.0f, 0.0f,
+        0.76f, -0.35f + 788.0f / wHeight,                                      0.0f, 1.0f,
+        0.76f + 432.0f / wWidth, -0.35f + 788.0f / wHeight,                    1.0f, 1.0f
+    };
+
+    float tree_vertices2[] = {
+        -0.25f, -0.44f,                                                         0.0f, 0.0f,
+        -0.25f + 432.0f / wWidth, -0.44f,                                       1.0f, 0.0f,
+        -0.25f, -0.44f + 788.0f / wHeight,                                      0.0f, 1.0f,
+        -0.25f + 432.0f / wWidth, -0.44f + 788.0f / wHeight,                    1.0f, 1.0f
+    };
+
+    float tree_vertices5[] = {
+        0.0f, -0.55f,                                                         0.0f, 0.0f,
+        0.0f + 432.0f / wWidth, -0.55f,                                       1.0f, 0.0f,
+        0.0f, -0.55f + 788.0f / wHeight,                                      0.0f, 1.0f,
+        0.0f + 432.0f / wWidth, -0.55f + 788.0f / wHeight,                    1.0f, 1.0f
+    };
+
+    float tree_vertices3[] = {
+        -0.76f, -1.0f,                                      0.0f, 0.0f,
+        -0.76f + 432.0f / wWidth, -1.0f,                    1.0f, 0.0f,
+        -0.76f, -1.0f + 788.0f / wHeight,                                      0.0f, 1.0f,
+        -0.76f + 432.0f / wWidth, -1.0f + 788.0f / wHeight,                   1.0f, 1.0f
+    };
+
+    float tree_vertices4[] = {
+        -0.45f, 128.0f / wHeight - 1.0f,                                      0.0f, 0.0f,
+        -0.45f + 432.0f / wWidth, 128.0f / wHeight - 1.0f,                    1.0f, 0.0f,
+        -0.45f, 916.0f / wHeight - 1.0f,                                      0.0f, 1.0f,
+        -0.45f + 432.0f / wWidth,  916.0f / wHeight - 1.0f,                   1.0f, 1.0f
+    };
+
+    float person_vertices[] = {
+        0.0f, 128.0f / wHeight - 1.0f,                                       0.0f, 0.0f,
+        -0.0f + 272.0f / wWidth, 128.0f / wHeight - 1.0f,                    1.0f, 0.0f,
+        -0.0f, 498.0f / wHeight - 1.0f,                                      0.0f, 1.0f,
+        -0.0f + 272.0f / wWidth,  496.0f / wHeight - 1.0f,                   1.0f, 1.0f
     };
 
     unsigned int stride = (2 + 2) * sizeof(float);
@@ -179,6 +284,30 @@ int main(void)
     unsigned int bushVAO1, bushVBO1;
     bushVAO1 = createVAO(&bushVBO1, bush_vertices1, sizeof(bush_vertices1), stride);
 
+    unsigned int bushVAO2, bushVBO2;
+    bushVAO2 = createVAO(&bushVBO2, bush_vertices2, sizeof(bush_vertices2), stride);
+
+    unsigned int bushVAO3, bushVBO3;
+    bushVAO3 = createVAO(&bushVBO3, bush_vertices3, sizeof(bush_vertices3), stride);
+
+    unsigned int bushVAO4, bushVBO4;
+    bushVAO4 = createVAO(&bushVBO4, bush_vertices4, sizeof(bush_vertices4), stride);
+
+    unsigned int bushVAO5, bushVBO5;
+    bushVAO5 = createVAO(&bushVBO5, bush_vertices5, sizeof(bush_vertices5), stride);
+
+    unsigned int bushVAO6, bushVBO6;
+    bushVAO6 = createVAO(&bushVBO6, bush_vertices6, sizeof(bush_vertices6), stride);
+
+    unsigned int bushVAO7, bushVBO7;
+    bushVAO7 = createVAO(&bushVBO7, bush_vertices7, sizeof(bush_vertices7), stride);
+
+    unsigned int bushVAO8, bushVBO8;
+    bushVAO8 = createVAO(&bushVBO8, bush_vertices8, sizeof(bush_vertices8), stride);
+
+    unsigned int bushVAO9, bushVBO9;
+    bushVAO9 = createVAO(&bushVBO9, bush_vertices9, sizeof(bush_vertices9), stride);
+
     unsigned int sunVAO, sunVBO;
     sunVAO = createVAO(&sunVBO, sun_vertices, sizeof(sun_vertices), stride);
 
@@ -191,6 +320,27 @@ int main(void)
     unsigned int cloudVAO3, cloudVBO3;
     cloudVAO3 = createVAO(&cloudVBO3, cloud_vertices3, sizeof(cloud_vertices3), stride);
 
+    unsigned int volcanoVAO, volcanoVBO;
+    volcanoVAO = createVAO(&volcanoVBO, volcano_vertices, sizeof(volcano_vertices), stride);
+
+    unsigned int treeVAO1, treeVBO1;
+    treeVAO1 = createVAO(&treeVBO1, tree_vertices1, sizeof(tree_vertices1), stride);
+
+    unsigned int treeVAO2, treeVBO2;
+    treeVAO2 = createVAO(&treeVBO2, tree_vertices2, sizeof(tree_vertices2), stride);
+
+    unsigned int treeVAO3, treeVBO3;
+    treeVAO3 = createVAO(&treeVBO3, tree_vertices3, sizeof(tree_vertices3), stride);
+
+    unsigned int treeVAO4, treeVBO4;
+    treeVAO4 = createVAO(&treeVBO4, tree_vertices4, sizeof(tree_vertices4), stride);
+
+    unsigned int treeVAO5, treeVBO5;
+    treeVAO5 = createVAO(&treeVBO5, tree_vertices5, sizeof(tree_vertices5), stride);
+
+    unsigned int personVAO, personVBO;
+    personVAO = createVAO(&personVBO, person_vertices, sizeof(person_vertices), stride);
+
     //Textures
     unsigned groundTexture = loadAndSetupTexture("res/Ground.png", unifiedShader, "uTex");
     unsigned waterfallTexture1 = loadAndSetupTexture("res/Waterfall_1.png", unifiedShader, "uTex");
@@ -199,14 +349,34 @@ int main(void)
     unsigned textTexture = loadAndSetupTexture("res/Sign.png", unifiedShader, "uTex");
     unsigned dirtTexture = loadAndSetupTexture("res/Dirt.png", unifiedShader, "uTex");
     unsigned bushTexture3 = loadAndSetupTexture("res/Bush_3.png", unifiedShader, "uTex");
+    unsigned bushTexture2 = loadAndSetupTexture("res/Bush_2.png", unifiedShader, "uTex");
+    unsigned bushTexture1 = loadAndSetupTexture("res/Bush_1.png", unifiedShader, "uTex");
     unsigned sunTexture = loadAndSetupTexture("res/Sun.png", unifiedShader, "uTex");
     unsigned cloudTexture1 = loadAndSetupTexture("res/Cloud_1.png", unifiedShader, "uTex");
     unsigned cloudTexture2 = loadAndSetupTexture("res/Cloud_2.png", unifiedShader, "uTex");
     unsigned cloudTexture3 = loadAndSetupTexture("res/Cloud_3.png", unifiedShader, "uTex");
+    unsigned volcanoTexture1 = loadAndSetupTexture("res/Volacno_1.png", unifiedShader, "uTex");
+    unsigned volcanoTexture2 = loadAndSetupTexture("res/Volacno_2.png", unifiedShader, "uTex");
+    unsigned volcanoTexture3 = loadAndSetupTexture("res/Volacno_3.png", unifiedShader, "uTex");
+    unsigned volcanoTexture4 = loadAndSetupTexture("res/Volacno_4.png", unifiedShader, "uTex");
+    unsigned treeTexture1 = loadAndSetupTexture("res/Tree_1.png", unifiedShader, "uTex");
+    unsigned treeTexture2 = loadAndSetupTexture("res/Tree_2.png", unifiedShader, "uTex");
+    unsigned treeTexture3 = loadAndSetupTexture("res/Tree_3.png", unifiedShader, "uTex");
+    unsigned treeTexture4 = loadAndSetupTexture("res/Tree_4.png", unifiedShader, "uTex");
+    unsigned treeTexture5 = loadAndSetupTexture("res/Tree_5.png", unifiedShader, "uTex");
+    unsigned treeTexture6 = loadAndSetupTexture("res/Tree_6.png", unifiedShader, "uTex");
+    unsigned personTextureStanding = loadAndSetupTexture("res/Character_1.png", unifiedShader, "uTex");
+    unsigned personTexture1 = loadAndSetupTexture("res/Character_2.png", unifiedShader, "uTex");
+    unsigned personTexture2 = loadAndSetupTexture("res/Character_3.png", unifiedShader, "uTex");
+    unsigned personTexture3 = loadAndSetupTexture("res/Character_4.png", unifiedShader, "uTex");
 
     double lastSwitchTime = glfwGetTime();
     const double switchInterval = 0.5;
     unsigned int currentWaterfallTexture = waterfallTexture1;
+    unsigned int currentVolcanoTexture = volcanoTexture1;
+    unsigned int currentTree1Texture = treeTexture1;
+    unsigned int currentTree2Texture = treeTexture3;
+    unsigned int currentTree3Texture = treeTexture5;
 
     unsigned int sunColorLocation = glGetUniformLocation(unifiedShader, "sunColor");
     unsigned int isSunLocation = glGetUniformLocation(unifiedShader, "isSun");
@@ -221,6 +391,10 @@ int main(void)
         double startTime = glfwGetTime();
         if (startTime - lastSwitchTime >= switchInterval) {
             currentWaterfallTexture = (currentWaterfallTexture == waterfallTexture1) ? waterfallTexture2 : waterfallTexture1;
+            currentVolcanoTexture = (currentVolcanoTexture == volcanoTexture1) ? volcanoTexture2 : volcanoTexture1;
+            currentTree1Texture = (currentTree1Texture == treeTexture1) ? treeTexture2 : treeTexture1;
+            currentTree2Texture = (currentTree2Texture == treeTexture3) ? treeTexture4 : treeTexture3;
+            currentTree3Texture = (currentTree3Texture == treeTexture5) ? treeTexture6 : treeTexture5;
             lastSwitchTime = startTime;
         }
         
@@ -292,17 +466,32 @@ int main(void)
 
         glUniform2f(uPosLoc, 0, 0);
 
-        //Ground
-        glBindVertexArray(groundVAO1);
+        //Vulcano
+        glBindVertexArray(volcanoVAO);
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, groundTexture);
+        glBindTexture(GL_TEXTURE_2D, currentVolcanoTexture);
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
         glBindTexture(GL_TEXTURE_2D, 0);
         glBindVertexArray(0);
 
-        glBindVertexArray(groundVAO2);
+        //Trees
+        glBindVertexArray(treeVAO1);
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, groundTexture);
+        glBindTexture(GL_TEXTURE_2D, currentTree1Texture);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindVertexArray(0);
+
+        glBindVertexArray(treeVAO2);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, currentTree2Texture);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindVertexArray(0);
+
+        glBindVertexArray(treeVAO5);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, currentTree3Texture);
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
         glBindTexture(GL_TEXTURE_2D, 0);
         glBindVertexArray(0);
@@ -329,14 +518,6 @@ int main(void)
         glBindTexture(GL_TEXTURE_2D, 0);
         glBindVertexArray(0);
 
-        //Waterfall
-        glBindVertexArray(waterfallVAO);
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, currentWaterfallTexture);
-        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-        glBindTexture(GL_TEXTURE_2D, 0);
-        glBindVertexArray(0);
-
         //Board
         glBindVertexArray(boardVAO);
         glActiveTexture(GL_TEXTURE0);
@@ -353,6 +534,37 @@ int main(void)
         glBindTexture(GL_TEXTURE_2D, 0);
         glBindVertexArray(0);
 
+        //Tree
+        glBindVertexArray(treeVAO3);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, currentTree3Texture);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindVertexArray(0);
+
+        //Ground
+        glBindVertexArray(groundVAO1);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, groundTexture);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindVertexArray(0);
+
+        glBindVertexArray(groundVAO2);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, groundTexture);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindVertexArray(0);
+
+        //Waterfall
+        glBindVertexArray(waterfallVAO);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, currentWaterfallTexture);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindVertexArray(0);
+
         //Bush
         glBindVertexArray(bushVAO1);
         glActiveTexture(GL_TEXTURE0);
@@ -360,6 +572,79 @@ int main(void)
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
         glBindTexture(GL_TEXTURE_2D, 0);
         glBindVertexArray(0);
+
+        glBindVertexArray(bushVAO2);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, bushTexture1);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindVertexArray(0);
+
+        glBindVertexArray(bushVAO3);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, bushTexture2);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindVertexArray(0);
+
+        glBindVertexArray(bushVAO4);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, bushTexture2);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindVertexArray(0);
+
+        glBindVertexArray(bushVAO5);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, bushTexture2);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindVertexArray(0);
+
+        glBindVertexArray(bushVAO6);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, bushTexture2);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindVertexArray(0);
+
+        glBindVertexArray(bushVAO7);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, bushTexture2);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindVertexArray(0);
+
+        glBindVertexArray(bushVAO8);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, bushTexture2);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindVertexArray(0);
+
+        glBindVertexArray(bushVAO9);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, bushTexture2);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindVertexArray(0);
+
+        //Tree
+        glBindVertexArray(treeVAO4);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, currentTree1Texture);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindVertexArray(0);
+
+        //Person
+        glBindVertexArray(personVAO);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, personTextureStanding);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindVertexArray(0);
+
 
 
         glUseProgram(0);
@@ -380,10 +665,60 @@ int main(void)
     glDeleteTextures(1, &groundTexture);
     glDeleteTextures(1, &waterfallTexture1);
     glDeleteTextures(1, &waterfallTexture2);
-    glDeleteBuffers(1, &groundVBO1);
-    glDeleteBuffers(1, &waterfallVBO);
+    glDeleteTextures(1, &boardTexture);
+    glDeleteTextures(1, &textTexture);
+    glDeleteTextures(1, &dirtTexture);
+    glDeleteTextures(1, &bushTexture3);
+    glDeleteTextures(1, &bushTexture2);
+    glDeleteTextures(1, &bushTexture1);
+    glDeleteTextures(1, &sunTexture);
+    glDeleteTextures(1, &cloudTexture1);
+    glDeleteTextures(1, &cloudTexture2);
+    glDeleteTextures(1, &cloudTexture3);
+    glDeleteTextures(1, &volcanoTexture1);
+    glDeleteTextures(1, &volcanoTexture2);
+    glDeleteTextures(1, &volcanoTexture3);
+    glDeleteTextures(1, &volcanoTexture4);
+    glDeleteTextures(1, &treeTexture1);
+    glDeleteTextures(1, &treeTexture2);
+    glDeleteTextures(1, &treeTexture3);
+    glDeleteTextures(1, &treeTexture4);
+    glDeleteTextures(1, &treeTexture5);
+    glDeleteTextures(1, &treeTexture6);
+    glDeleteTextures(1, &personTextureStanding);
+    glDeleteTextures(1, &personTexture1);
+    glDeleteTextures(1, &personTexture2);
+    glDeleteTextures(1, &personTexture3);
+
     glDeleteVertexArrays(1, &groundVAO1);
+    glDeleteVertexArrays(1, &groundVAO2);
     glDeleteVertexArrays(1, &waterfallVAO);
+    glDeleteVertexArrays(1, &boardVAO);
+    glDeleteVertexArrays(1, &textVAO);
+    glDeleteVertexArrays(1, &dirtVAO1);
+    glDeleteVertexArrays(1, &dirtVAO2);
+    glDeleteVertexArrays(1, &dirtVAO3);
+    glDeleteVertexArrays(1, &bushVAO1);
+    glDeleteVertexArrays(1, &bushVAO2);
+    glDeleteVertexArrays(1, &bushVAO3);
+    glDeleteVertexArrays(1, &bushVAO4);
+    glDeleteVertexArrays(1, &bushVAO5);
+    glDeleteVertexArrays(1, &bushVAO6);
+    glDeleteVertexArrays(1, &bushVAO7);
+    glDeleteVertexArrays(1, &bushVAO8);
+    glDeleteVertexArrays(1, &bushVAO9);
+    glDeleteVertexArrays(1, &sunVAO);
+    glDeleteVertexArrays(1, &cloudVAO1);
+    glDeleteVertexArrays(1, &cloudVAO2);
+    glDeleteVertexArrays(1, &cloudVAO3);
+    glDeleteVertexArrays(1, &volcanoVAO);
+    glDeleteVertexArrays(1, &treeVAO1);
+    glDeleteVertexArrays(1, &treeVAO2);
+    glDeleteVertexArrays(1, &treeVAO3);
+    glDeleteVertexArrays(1, &treeVAO4);
+    glDeleteVertexArrays(1, &treeVAO5);
+    glDeleteVertexArrays(1, &personVAO);
+
     glDeleteProgram(unifiedShader);
 
     glfwTerminate();
