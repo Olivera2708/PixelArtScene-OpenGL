@@ -14,7 +14,7 @@ unsigned int compileShader(GLenum type, const char* source);
 unsigned int createShader(const char* vsSource, const char* fsSource);
 static unsigned loadImageToTexture(const char* filePath);
 unsigned int createVAO(unsigned int* VBO, const float* vertices, unsigned int size, unsigned int stride);
-unsigned int loadAndSetupTexture(const char* texturePath, unsigned int shaderProgram, const char* uniformName);
+unsigned int loadAndSetupTexture(const char* texturePath);
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 
 const int TARGET_FPS = 60;
@@ -243,32 +243,32 @@ int main(void)
     VAO = createVAO(&VBO, vertices, size, stride);
 
     //Textures
-    unsigned groundTexture = loadAndSetupTexture("res/Ground.png", basicShader, "uTex");
-    unsigned waterfallTexture1 = loadAndSetupTexture("res/Waterfall_1.png", basicShader, "uTex");
-    unsigned waterfallTexture2 = loadAndSetupTexture("res/Waterfall_2.png", basicShader, "uTex");
-    unsigned boardTexture = loadAndSetupTexture("res/Board.png", basicShader, "uTex");
-    unsigned textTexture = loadAndSetupTexture("res/Sign.png", basicShader, "uTex");
-    unsigned dirtTexture = loadAndSetupTexture("res/Dirt.png", basicShader, "uTex");
-    unsigned bushTexture3 = loadAndSetupTexture("res/Bush_3.png", basicShader, "uTex");
-    unsigned bushTexture2 = loadAndSetupTexture("res/Bush_2.png", basicShader, "uTex");
-    unsigned bushTexture1 = loadAndSetupTexture("res/Bush_1.png", basicShader, "uTex");
-    unsigned sunTexture = loadAndSetupTexture("res/Sun.png", sunShader, "uTex");
-    unsigned cloudTexture1 = loadAndSetupTexture("res/Cloud_1.png", movingShader, "uTex");
-    unsigned cloudTexture2 = loadAndSetupTexture("res/Cloud_2.png", movingShader, "uTex");
-    unsigned cloudTexture3 = loadAndSetupTexture("res/Cloud_3.png", movingShader, "uTex");
-    unsigned volcanoTexture1 = loadAndSetupTexture("res/Volacno_1.png", basicShader, "uTex");
-    unsigned volcanoTexture2 = loadAndSetupTexture("res/Volacno_2.png", basicShader, "uTex");
-    unsigned volcanoTexture3 = loadAndSetupTexture("res/Volacno_3.png", basicShader, "uTex");
-    unsigned volcanoTexture4 = loadAndSetupTexture("res/Volacno_4.png", basicShader, "uTex");
-    unsigned treeTexture1 = loadAndSetupTexture("res/Tree_1.png", basicShader, "uTex");
-    unsigned treeTexture2 = loadAndSetupTexture("res/Tree_2.png", basicShader, "uTex");
-    unsigned treeTexture3 = loadAndSetupTexture("res/Tree_3.png", basicShader, "uTex");
-    unsigned treeTexture4 = loadAndSetupTexture("res/Tree_4.png", basicShader, "uTex");
-    unsigned treeTexture5 = loadAndSetupTexture("res/Tree_5.png", basicShader, "uTex");
-    unsigned treeTexture6 = loadAndSetupTexture("res/Tree_6.png", basicShader, "uTex");
-    unsigned personTextureStanding = loadAndSetupTexture("res/Character_1.png", personShader, "uTex");
-    unsigned personTexture1 = loadAndSetupTexture("res/Character_3.png", personShader, "uTex");
-    unsigned personTexture2 = loadAndSetupTexture("res/Character_4.png", personShader, "uTex");
+    unsigned groundTexture = loadAndSetupTexture("res/Ground.png");
+    unsigned waterfallTexture1 = loadAndSetupTexture("res/Waterfall_1.png");
+    unsigned waterfallTexture2 = loadAndSetupTexture("res/Waterfall_2.png");
+    unsigned boardTexture = loadAndSetupTexture("res/Board.png");
+    unsigned textTexture = loadAndSetupTexture("res/Sign.png");
+    unsigned dirtTexture = loadAndSetupTexture("res/Dirt.png");
+    unsigned bushTexture3 = loadAndSetupTexture("res/Bush_3.png");
+    unsigned bushTexture2 = loadAndSetupTexture("res/Bush_2.png");
+    unsigned bushTexture1 = loadAndSetupTexture("res/Bush_1.png");
+    unsigned sunTexture = loadAndSetupTexture("res/Sun.png");
+    unsigned cloudTexture1 = loadAndSetupTexture("res/Cloud_1.png");
+    unsigned cloudTexture2 = loadAndSetupTexture("res/Cloud_2.png");
+    unsigned cloudTexture3 = loadAndSetupTexture("res/Cloud_3.png");
+    unsigned volcanoTexture1 = loadAndSetupTexture("res/Volacno_1.png");
+    unsigned volcanoTexture2 = loadAndSetupTexture("res/Volacno_2.png");
+    unsigned volcanoTexture3 = loadAndSetupTexture("res/Volacno_3.png");
+    unsigned volcanoTexture4 = loadAndSetupTexture("res/Volacno_4.png");
+    unsigned treeTexture1 = loadAndSetupTexture("res/Tree_1.png");
+    unsigned treeTexture2 = loadAndSetupTexture("res/Tree_2.png");
+    unsigned treeTexture3 = loadAndSetupTexture("res/Tree_3.png");
+    unsigned treeTexture4 = loadAndSetupTexture("res/Tree_4.png");
+    unsigned treeTexture5 = loadAndSetupTexture("res/Tree_5.png");
+    unsigned treeTexture6 = loadAndSetupTexture("res/Tree_6.png");
+    unsigned personTextureStanding = loadAndSetupTexture("res/Character_1.png");
+    unsigned personTexture1 = loadAndSetupTexture("res/Character_3.png");
+    unsigned personTexture2 = loadAndSetupTexture("res/Character_4.png");
 
     double lastSwitchTime = glfwGetTime();
     double lastSwitchTimePerson = glfwGetTime();
@@ -544,33 +544,18 @@ int main(void)
         glfwPollEvents();
     }
 
+    GLuint textures[] = {
+        groundTexture,
+        waterfallTexture1, waterfallTexture2,
+        boardTexture, textTexture,
+        dirtTexture, bushTexture3, bushTexture2, bushTexture1,
+        sunTexture, cloudTexture1, cloudTexture2, cloudTexture3,
+        volcanoTexture1, volcanoTexture2, volcanoTexture3, volcanoTexture4,
+        treeTexture1, treeTexture2, treeTexture3, treeTexture4, treeTexture5, treeTexture6,
+        personTextureStanding, personTexture1, personTexture2
+    };
 
-    glDeleteTextures(1, &groundTexture);
-    glDeleteTextures(1, &waterfallTexture1);
-    glDeleteTextures(1, &waterfallTexture2);
-    glDeleteTextures(1, &boardTexture);
-    glDeleteTextures(1, &textTexture);
-    glDeleteTextures(1, &dirtTexture);
-    glDeleteTextures(1, &bushTexture3);
-    glDeleteTextures(1, &bushTexture2);
-    glDeleteTextures(1, &bushTexture1);
-    glDeleteTextures(1, &sunTexture);
-    glDeleteTextures(1, &cloudTexture1);
-    glDeleteTextures(1, &cloudTexture2);
-    glDeleteTextures(1, &cloudTexture3);
-    glDeleteTextures(1, &volcanoTexture1);
-    glDeleteTextures(1, &volcanoTexture2);
-    glDeleteTextures(1, &volcanoTexture3);
-    glDeleteTextures(1, &volcanoTexture4);
-    glDeleteTextures(1, &treeTexture1);
-    glDeleteTextures(1, &treeTexture2);
-    glDeleteTextures(1, &treeTexture3);
-    glDeleteTextures(1, &treeTexture4);
-    glDeleteTextures(1, &treeTexture5);
-    glDeleteTextures(1, &treeTexture6);
-    glDeleteTextures(1, &personTextureStanding);
-    glDeleteTextures(1, &personTexture1);
-    glDeleteTextures(1, &personTexture2);
+    glDeleteTextures(sizeof(textures) / sizeof(textures[0]), textures);
 
     glDeleteVertexArrays(1, &VAO);
 
@@ -625,7 +610,6 @@ unsigned int compileShader(GLenum type, const char* source)
 
 unsigned int createShader(const char* vsSource, const char* fsSource)
 {
-    
     unsigned int program;
     unsigned int vertexShader;
     unsigned int fragmentShader;
@@ -708,12 +692,10 @@ unsigned int createVAO(unsigned int* VBO, const float* vertices, unsigned int si
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, stride, (void*)(2 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
     return VAO;
 }
 
-unsigned int loadAndSetupTexture(const char* texturePath, unsigned int shaderProgram, const char* uniformName) {
+unsigned int loadAndSetupTexture(const char* texturePath) {
     unsigned int texture = loadImageToTexture(texturePath);
 
     glBindTexture(GL_TEXTURE_2D, texture);
@@ -723,11 +705,6 @@ unsigned int loadAndSetupTexture(const char* texturePath, unsigned int shaderPro
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glBindTexture(GL_TEXTURE_2D, 0);
-
-    glUseProgram(shaderProgram);
-    unsigned int uTexLoc = glGetUniformLocation(shaderProgram, uniformName);
-    glUniform1i(uTexLoc, 0);
-    glUseProgram(0);
 
     return texture;
 }
