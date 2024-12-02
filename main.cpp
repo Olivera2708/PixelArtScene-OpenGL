@@ -527,9 +527,6 @@ int main(void)
 
         glBindVertexArray(0);
         glUniform2f(uPosLoc, 0, 0);
-
-
-
         glUseProgram(0);
 
         glfwSwapBuffers(window);
