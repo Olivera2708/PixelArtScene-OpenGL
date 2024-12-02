@@ -8,7 +8,6 @@ uniform vec3 sunColor;
 
 void main()
 {
-    vec2 texCoords = chTex;
-	vec4 texColor = texture(uTex, texCoords);
+	vec4 texColor = texture(uTex, chTex);
     outCol = vec4(sunColor, 1.0) * texColor;
 }
