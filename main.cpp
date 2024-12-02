@@ -60,7 +60,10 @@ int main(void)
         return 3;
     }
 
-    unsigned int unifiedShader = createShader("basic.vert", "basic.frag");
+    unsigned int basicShader = createShader("basic.vert", "basic.frag");
+    unsigned int movingShader = createShader("moving.vert", "basic.frag");
+    unsigned int sunShader = createShader("basic.vert", "sun.frag");
+    unsigned int personShader = createShader("moving.vert", "mirror.frag");
 
     float vertices[] = {
         //ground1 0, 4
@@ -240,32 +243,32 @@ int main(void)
     VAO = createVAO(&VBO, vertices, size, stride);
 
     //Textures
-    unsigned groundTexture = loadAndSetupTexture("res/Ground.png", unifiedShader, "uTex");
-    unsigned waterfallTexture1 = loadAndSetupTexture("res/Waterfall_1.png", unifiedShader, "uTex");
-    unsigned waterfallTexture2 = loadAndSetupTexture("res/Waterfall_2.png", unifiedShader, "uTex");
-    unsigned boardTexture = loadAndSetupTexture("res/Board.png", unifiedShader, "uTex");
-    unsigned textTexture = loadAndSetupTexture("res/Sign.png", unifiedShader, "uTex");
-    unsigned dirtTexture = loadAndSetupTexture("res/Dirt.png", unifiedShader, "uTex");
-    unsigned bushTexture3 = loadAndSetupTexture("res/Bush_3.png", unifiedShader, "uTex");
-    unsigned bushTexture2 = loadAndSetupTexture("res/Bush_2.png", unifiedShader, "uTex");
-    unsigned bushTexture1 = loadAndSetupTexture("res/Bush_1.png", unifiedShader, "uTex");
-    unsigned sunTexture = loadAndSetupTexture("res/Sun.png", unifiedShader, "uTex");
-    unsigned cloudTexture1 = loadAndSetupTexture("res/Cloud_1.png", unifiedShader, "uTex");
-    unsigned cloudTexture2 = loadAndSetupTexture("res/Cloud_2.png", unifiedShader, "uTex");
-    unsigned cloudTexture3 = loadAndSetupTexture("res/Cloud_3.png", unifiedShader, "uTex");
-    unsigned volcanoTexture1 = loadAndSetupTexture("res/Volacno_1.png", unifiedShader, "uTex");
-    unsigned volcanoTexture2 = loadAndSetupTexture("res/Volacno_2.png", unifiedShader, "uTex");
-    unsigned volcanoTexture3 = loadAndSetupTexture("res/Volacno_3.png", unifiedShader, "uTex");
-    unsigned volcanoTexture4 = loadAndSetupTexture("res/Volacno_4.png", unifiedShader, "uTex");
-    unsigned treeTexture1 = loadAndSetupTexture("res/Tree_1.png", unifiedShader, "uTex");
-    unsigned treeTexture2 = loadAndSetupTexture("res/Tree_2.png", unifiedShader, "uTex");
-    unsigned treeTexture3 = loadAndSetupTexture("res/Tree_3.png", unifiedShader, "uTex");
-    unsigned treeTexture4 = loadAndSetupTexture("res/Tree_4.png", unifiedShader, "uTex");
-    unsigned treeTexture5 = loadAndSetupTexture("res/Tree_5.png", unifiedShader, "uTex");
-    unsigned treeTexture6 = loadAndSetupTexture("res/Tree_6.png", unifiedShader, "uTex");
-    unsigned personTextureStanding = loadAndSetupTexture("res/Character_1.png", unifiedShader, "uTex");
-    unsigned personTexture1 = loadAndSetupTexture("res/Character_3.png", unifiedShader, "uTex");
-    unsigned personTexture2 = loadAndSetupTexture("res/Character_4.png", unifiedShader, "uTex");
+    unsigned groundTexture = loadAndSetupTexture("res/Ground.png", basicShader, "uTex");
+    unsigned waterfallTexture1 = loadAndSetupTexture("res/Waterfall_1.png", basicShader, "uTex");
+    unsigned waterfallTexture2 = loadAndSetupTexture("res/Waterfall_2.png", basicShader, "uTex");
+    unsigned boardTexture = loadAndSetupTexture("res/Board.png", basicShader, "uTex");
+    unsigned textTexture = loadAndSetupTexture("res/Sign.png", basicShader, "uTex");
+    unsigned dirtTexture = loadAndSetupTexture("res/Dirt.png", basicShader, "uTex");
+    unsigned bushTexture3 = loadAndSetupTexture("res/Bush_3.png", basicShader, "uTex");
+    unsigned bushTexture2 = loadAndSetupTexture("res/Bush_2.png", basicShader, "uTex");
+    unsigned bushTexture1 = loadAndSetupTexture("res/Bush_1.png", basicShader, "uTex");
+    unsigned sunTexture = loadAndSetupTexture("res/Sun.png", sunShader, "uTex");
+    unsigned cloudTexture1 = loadAndSetupTexture("res/Cloud_1.png", movingShader, "uTex");
+    unsigned cloudTexture2 = loadAndSetupTexture("res/Cloud_2.png", movingShader, "uTex");
+    unsigned cloudTexture3 = loadAndSetupTexture("res/Cloud_3.png", movingShader, "uTex");
+    unsigned volcanoTexture1 = loadAndSetupTexture("res/Volacno_1.png", basicShader, "uTex");
+    unsigned volcanoTexture2 = loadAndSetupTexture("res/Volacno_2.png", basicShader, "uTex");
+    unsigned volcanoTexture3 = loadAndSetupTexture("res/Volacno_3.png", basicShader, "uTex");
+    unsigned volcanoTexture4 = loadAndSetupTexture("res/Volacno_4.png", basicShader, "uTex");
+    unsigned treeTexture1 = loadAndSetupTexture("res/Tree_1.png", basicShader, "uTex");
+    unsigned treeTexture2 = loadAndSetupTexture("res/Tree_2.png", basicShader, "uTex");
+    unsigned treeTexture3 = loadAndSetupTexture("res/Tree_3.png", basicShader, "uTex");
+    unsigned treeTexture4 = loadAndSetupTexture("res/Tree_4.png", basicShader, "uTex");
+    unsigned treeTexture5 = loadAndSetupTexture("res/Tree_5.png", basicShader, "uTex");
+    unsigned treeTexture6 = loadAndSetupTexture("res/Tree_6.png", basicShader, "uTex");
+    unsigned personTextureStanding = loadAndSetupTexture("res/Character_1.png", personShader, "uTex");
+    unsigned personTexture1 = loadAndSetupTexture("res/Character_3.png", personShader, "uTex");
+    unsigned personTexture2 = loadAndSetupTexture("res/Character_4.png", personShader, "uTex");
 
     double lastSwitchTime = glfwGetTime();
     double lastSwitchTimePerson = glfwGetTime();
@@ -278,9 +281,9 @@ int main(void)
     unsigned int currentTree3Texture = treeTexture5;
     unsigned int currentPersonTexture = personTextureStanding;
 
-    unsigned int sunColorLocation = glGetUniformLocation(unifiedShader, "sunColor");
-    unsigned int isSunLocation = glGetUniformLocation(unifiedShader, "isSun");
-    unsigned int uPosLoc = glGetUniformLocation(unifiedShader, "uPos");
+    unsigned int sunColorLocation = glGetUniformLocation(sunShader, "sunColor");
+    unsigned int uPosLoc = glGetUniformLocation(movingShader, "uPos");
+    unsigned int uPosLocPerson = glGetUniformLocation(personShader, "uPos");
 
     float cloud_movement = 0.0f;
     float person_position = 0.0f;
@@ -318,7 +321,7 @@ int main(void)
         glClearColor(169.0f / 255.0f, 233.0f / 255.0f, 255.0f / 255.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glUseProgram(unifiedShader);
+        glUseProgram(sunShader);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -327,16 +330,15 @@ int main(void)
             change = (sin(startTime) + 1.0f) / 2.0f + 0.8f;
         
         glUniform3f(sunColorLocation, 1.0f, change, 1.0f);
-        glUniform1i(isSunLocation, true);
 
         glBindVertexArray(VAO);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, sunTexture);
         glDrawArrays(GL_TRIANGLE_STRIP, 67, 4);
         glBindTexture(GL_TEXTURE_2D, 0);
-        glUniform1i(isSunLocation, false);
 
         //Clouds
+        glUseProgram(movingShader);
         if (animationsActive) {
             cloud1_x -= 0.0008f;
             cloud2_x -= 0.0005f;
@@ -373,6 +375,7 @@ int main(void)
         glUniform2f(uPosLoc, 0, 0);
 
         //Vulcano
+        glUseProgram(basicShader);
         glBindTexture(GL_TEXTURE_2D, currentVolcanoTexture);
         glDrawArrays(GL_TRIANGLE_STRIP, 83, 4);
         glBindTexture(GL_TEXTURE_2D, 0);
@@ -477,6 +480,7 @@ int main(void)
         //Person
         if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         {
+            glUseProgram(movingShader);
             person_position += 0.005f;
             if (startTime - lastSwitchTimePerson >= 0.15) {
                 if (currentPersonTexture == personTextureStanding)
@@ -487,6 +491,7 @@ int main(void)
         }
         else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
         {
+            glUseProgram(personShader);
             person_position -= 0.005f;
             if (startTime - lastSwitchTimePerson >= 0.15) {
                 if (currentPersonTexture == personTextureStanding)
@@ -494,14 +499,15 @@ int main(void)
                 currentPersonTexture = (currentPersonTexture == personTexture1) ? personTexture2 : personTexture1;
                 lastSwitchTimePerson = startTime;
             }
-            glUniform1i(glGetUniformLocation(unifiedShader, "mirror"), true);
         }
         else if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
         {
+            glUseProgram(basicShader);
             person_position = 0.0f;
             currentPersonTexture = personTextureStanding;
         }
         else {
+            glUseProgram(movingShader);
             currentPersonTexture = personTextureStanding;
         }
 
@@ -521,8 +527,6 @@ int main(void)
 
         glBindVertexArray(0);
         glUniform2f(uPosLoc, 0, 0);
-
-        glUniform1i(glGetUniformLocation(unifiedShader, "mirror"), false);
 
 
 
@@ -570,7 +574,10 @@ int main(void)
 
     glDeleteVertexArrays(1, &VAO);
 
-    glDeleteProgram(unifiedShader);
+    glDeleteProgram(basicShader);
+    glDeleteProgram(personShader);
+    glDeleteProgram(movingShader);
+    glDeleteProgram(sunShader);
 
     glfwTerminate();
     return 0;

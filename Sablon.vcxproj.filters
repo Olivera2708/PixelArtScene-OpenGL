@@ -30,5 +30,8 @@
     <None Include="basic.vert">
       <Filter>Source Files\Shader Files</Filter>
     </None>
+    <None Include="moving.vert" />
+    <None Include="sun.frag" />
+    <None Include="mirror.frag" />
   </ItemGroup>
 </Project>
